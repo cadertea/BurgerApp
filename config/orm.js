@@ -1,29 +1,37 @@
 var connection = require("../config/connection.js");
 
 var orm = {
-    selectAll: function (tableInput, cb) {
-        var queryString = "SELECT * FROM " + tableInput + ";";
-        connection.query(queryString, function (err, result) {
+    selectAll: function (tableInput, callback) {
+        var query= "SELECT * FROM " + tableInput + ";";
+        connection.query(query, function (err, result) {
             if (err) throw err;
-            cb(result);
+            callback(result);
         });
     },
 
-    insertOne: function (table, cols, vals, cb) {
-        var queryString = "INSERT INTO ?? (??) VALUES (?)";
-        connection.query(queryString, [table, cols, vals], function (err, result) {
+    insertOne: function (table, cols, vals, callback) {
+        var query= "INSERT INTO "+table+" ("+ cols +") VALUES (?)";
+        connection.query(query,  vals, function (err, result) {
             if (err) throw err;
-            cb(result);
+            callback(result);
         });
     },
 
-    updateOne: function (table, updateColVal, updateValue, id, cb) {
-        var queryString = "UPDATE ?? SET ?? = ? WHERE id = ?";
-        connection.query(queryString, [table, updateColVal, updateValue, id], function(err, result) {
+    updateOne: function (table, updateColVal, updateValue, id, callback) {
+        var query= "UPDATE " + table +  " SET "+ updateColVal + " = ? WHERE id = ?";
+        connection.query(query, [updateValue, id], function(err, result) {
             if (err) throw err;
-            cb(result);
+            callback(result);
         });
-    }
+    },
+
+    deleteone: function (tableInput,id , callback) {
+        var query= "delete from " + tableInput + " where id = ?";
+        connection.query(query, id , function (err, result) {
+            if (err) throw err;
+            callback(result);
+        });
+    },
 };
 
 module.exports = orm;

@@ -13,6 +13,14 @@ var burger = {
         });
     },
 
+
+    delete: function (vals, cb) {
+        orm.deleteone("burgers", vals, function (res) {
+            cb(res);
+            
+        });
+    },
+
     updateOne: function (updateColVal, updateValue, id, cb) {
         orm.updateOne("burgers", updateColVal, updateValue, id, function (res) {
             cb(res);
